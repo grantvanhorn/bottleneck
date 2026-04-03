@@ -1,5 +1,47 @@
 # Changelog
 
+## 2026-04-02 18:30 — First Full Pipeline Run (qwen3:8b)
+
+**Pipeline completed successfully. All 4 agents used tools and produced real files.**
+
+**Timing & cost:**
+- PM: 12 min → Dev: 4 min → QA: 6 min + DevOps: 2 min (parallel) = **~22 min total**
+- Token usage: 24k input / 17k output (all local, **$0 cost**)
+
+**What worked well:**
+- PM spec is solid — clean user stories, data model, error cases, acceptance criteria
+- All 4 agents used tools and produced real files
+- File structure matches what was requested: `docs/spec.md`, `src/app.ts`, `src/db/schema.ts`, `src/db/index.ts`, `src/index.ts`, `Dockerfile`, `DEPLOY.md`
+
+**What needs work (expected from an 8B model):**
+- `app.ts` — Uses `/add`, `/list`, `/complete`, `/stats` commands instead of the `/todo` subcommand pattern from the spec. Also has Drizzle API errors (wrong imports, `command.user.id` should be `command.user_id`, variable shadowing `tasks`)
+- `schema.ts` — Uses non-existent Drizzle API (`defineTable`, `column`). Drizzle uses `sqliteTable` and typed column builders
+- `db/index.ts` — Uses in-memory DB instead of file path from env var
+- `Dockerfile` — Missing Node.js in the runtime stage (copies to bare alpine)
+- `DEPLOY.md` — Barebones but directionally correct
+
+**Assessment:** Typical for a 7-8B local model doing multi-file code generation — gets the structure and intent right but fumbles framework-specific API details. The PM spec output is genuinely good and usable as-is. The code needs manual fixes or a re-run with a larger model.
+
+## 2026-04-02 18:15 — Agent Runner Scripts & CLI Commands
+
+**Split monolithic `build.ts` into modular runner system:**
+- `agents/config.ts` — shared LLM config, agent definitions, task list, progress tracking
+- `agents/build.ts` — thin wrapper for full pipeline
+- `agents/run-pm.ts`, `run-dev.ts`, `run-qa.ts`, `run-devops.ts` — individual agent runners
+- `agents/status.ts` — Ollama health check
+
+**Package.json scripts:**
+| Command | Description |
+|---------|-------------|
+| `npm run agents:status` | Check Ollama + model availability |
+| `npm run agents:all` | Full pipeline: PM → Dev → QA + DevOps |
+| `npm run agents:pm` | PM only |
+| `npm run agents:dev` | Dev only (requires spec) |
+| `npm run agents:qa` | QA only (requires src/) |
+| `npm run agents:devops` | DevOps only (requires src/) |
+
+**Created `USING_AGENTS.md`** — full documentation on how the agent system works, how to add tasks, change models, and add new agents.
+
 ## 2026-04-02 17:55 — Model Debugging & Switch to qwen3:8b
 
 **Problem: qwen2.5-coder models don't support native tool calling via Ollama**

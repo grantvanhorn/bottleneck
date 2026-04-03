@@ -4,13 +4,23 @@
   "description": "A Slackbot that manages per-user todo queues",
   "type": "module",
   "scripts": {
-    "build": "npx tsx agents/build.ts"
+    "start": "npx tsx src/index.ts",
+    "agents:all": "npx tsx agents/build.ts",
+    "agents:pm": "npx tsx agents/run-pm.ts",
+    "agents:dev": "npx tsx agents/run-dev.ts",
+    "agents:qa": "npx tsx agents/run-qa.ts",
+    "agents:devops": "npx tsx agents/run-devops.ts",
+    "agents:status": "npx tsx agents/status.ts"
   },
   "dependencies": {
+    "@slack/bolt": "1.21.0",
+    "better-sqlite3": "^7.4.3",
+    "drizzle-orm": "^0.15.0",
     "open-multi-agent": "file:../open-multi-agent"
   },
   "devDependencies": {
     "tsx": "^4.21.0",
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "vitest": "^16.1.0"
   }
 }
