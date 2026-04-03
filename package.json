@@ -1,0 +1,16 @@
+{
+  "name": "bottleneck",
+  "version": "0.1.0",
+  "description": "A Slackbot that manages per-user todo queues",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsx agents/build.ts"
+  },
+  "dependencies": {
+    "open-multi-agent": "file:../open-multi-agent"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0",
+    "typescript": "^5.6.0"
+  }
+}
