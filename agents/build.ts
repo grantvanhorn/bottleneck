@@ -1,5 +1,5 @@
 /**
- * Run the full build pipeline: PM → Dev → QA + DevOps (parallel)
+ * Run the full build pipeline: PM → Spike → Dev → QA + DevOps (parallel)
  *
  * Usage: npm run agents:all
  */
@@ -7,7 +7,7 @@
 import { allAgents, tasks, createOrchestrator, handleProgress, printResults } from './config.js'
 
 console.log('Bottleneck — Full Build Pipeline')
-console.log('PM (spec) → Dev (implement) → QA + DevOps (parallel)')
+console.log('PM (stories) → Spike (blueprints) → Dev (PR per story) → QA + DevOps (parallel)')
 console.log('='.repeat(60))
 
 const orchestrator = createOrchestrator(2)

@@ -8,15 +8,22 @@ A Slackbot that manages per-user todo queues. Teammates can view each other's qu
 - **Database:** SQLite via `better-sqlite3`
 - **ORM:** Drizzle ORM
 - **Hosting:** Railway (free tier)
-- **Build tooling:** open-multi-agent (PM/Dev/QA/DevOps agent workflow)
-- **LLM (local):** Ollama + qwen3:8b (see [HARDWARE.md](HARDWARE.md) for config and tuning)
+- **Slash command:** `/bottleneck <subcommand> <args>`
+- **Build tooling:** open-multi-agent (PM/Spike/Dev/QA/DevOps agent workflow)
+- **LLM (local):** Ollama + qwen3:14b (see [HARDWARE.md](HARDWARE.md) for config and tuning)
+
+## Agent Pipeline
+
+PM (spec) → Spike (API research) → Dev (implement) → QA + DevOps (parallel)
+
+All agents comment on a GitHub Issue for visibility. See [USING_AGENTS.md](USING_AGENTS.md) for full docs.
 
 ## Hardware & Model Config
 
 See [HARDWARE.md](HARDWARE.md) for dev machine specs, Ollama parameters, and model scaling options.
 - Machine: MacBook Pro M3 Pro, 36GB RAM, 18 GPU cores
-- Model: qwen3:8b (5.2GB, Q4_K_M, native tool calling)
-- To swap models, edit the `LLM` config block at the top of `agents/build.ts`
+- Model: qwen3:14b (native tool calling)
+- To swap models, edit the `LLM` config block in `agents/config.ts`
 
 ## Changelog Rule
 

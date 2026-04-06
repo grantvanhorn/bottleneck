@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "Node16",
-    "moduleResolution": "Node16",
-    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
-    "outDir": "dist",
-    "rootDir": ".",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "node:fs": ["node_modules/fs"]
+    }
   },
-  "include": ["agents/**/*.ts", "src/**/*.ts"]
+  "include": ["src/**/*"]
 }
